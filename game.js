@@ -2,25 +2,44 @@ function preload(){
 
 }
 
-function gui() {
+function guis() {
 
 }
 
-function pocket(){
+function pockets(){
+    this.switcher=false;
+    if (keyPressed && )
 
 }
-
+//mission control
 function missions(){
-    this.mission1=function(){
 
-    }
 }
 
-function scenes(){
-    this.scene1=function(){
-
+//scene below
+function scenes(_scene){
+    switch(_scene){
+        case 0:
+            scene0();
+        case 1:
+            scene1();
     }
 }
+function relativepos(_x){
+
+}
+
+function scene0(_x){
+
+}
+function scene1(_x){
+
+}
+
+
+
+
+//main framework
 let scene=0;
 function setup(){
     createCanvas(1920,1080);
