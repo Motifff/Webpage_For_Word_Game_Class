@@ -104,7 +104,7 @@ function missions(){
 
 //scene below
 //let reX=-600;
-let reX=0;//for test
+let rex=0;//for test
 function movement(){
     if (mouseX<100 && rex+2194>800){
         rex-=10;
@@ -123,10 +123,10 @@ function scenes(_scene){
     switch(_scene){
         case 0:
             //movement();
-            scene0(reX);
+            scene0(rex);
         case 1:
             //movement();
-            scene1(reX);
+            scene1(rex);
         case -1:
             let pass=0;
     }
