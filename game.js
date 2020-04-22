@@ -1,6 +1,7 @@
 let items;
 let Table
 let itemword=[[],[]];
+let interaction=[[],[]];
 let imagebed=[[],[]];
 let hold=-1;
 let noiseback;
@@ -17,8 +18,8 @@ function preload(){
 function guis(){
     let selflist=[];
     let leng=0;
-    for(let i=0;i<items[0].length;i++){
-        if (items[4][i]===1){
+    for(let i=0;i<items.length;i++){
+        if (items[i][4]===1){
             selflist.push(i);
             leng+=1;
         }
@@ -27,7 +28,7 @@ function guis(){
         }
     }
     for(let i=0;i<selflist.length;i++){
-        image(imagebed[items[1][selflist[i]]][selflist[i]], mouseX+50+i*25, mouseY+50, 20, 20);
+        image(imagebed[items[selflist[i]][1]][selflist[i]], mouseX+50+i*25, mouseY+50, 20, 20);
     }
 }
 
@@ -49,8 +50,8 @@ function pockets(){
         scene=-1;
         let printlist=[];
         let point;
-        for(let i=0;i<items[0].length;i++){
-            if (items[4][i]===1) {
+        for(let i=0;i<items.length;i++){
+            if (items[i][4]===1) {
                 printlist.push(i);
             }
         }
@@ -58,15 +59,15 @@ function pockets(){
             if (abs(mouseX - i%8*80+50)<25 && abs(mouseY-int(i/8)*80+50)<25 ){
                 push();
                 rotate(PI/8);
-                image(imagebed[items[printlist[i]][1]][printlist[i]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 60, 60);
-                text(itemword[0][printlist[i]],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
+                image(imagebed[printlist[i]][items[printlist[i]][1]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 60, 60);
+                text(itemword[printlist[i]][0],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
                 words(printlist[i]);
                 pop();
                 if (mouseIsPressed){
                     hold=printlist[i];
                 }
             }else{
-                image(imagebed[items[printlist[i]][1]][printlist[i]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 50, 50);
+                image(imagebed[printlist[i]][items[printlist[i]][1]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 50, 50);
                 //标号，模式
             }
         }
@@ -78,8 +79,8 @@ function pockets(){
 
 function words(_n){
     image(noiseback,0,0);
-    image(imagebed[items[1][_n]][_n],500,width/2,400,400);
-    let s=itemword[items[1][_n]];
+    image(imagebed[items[_n][1]][_n],500,width/2,400,400);
+    let s=itemword[items[_n][1]];
     for(let i=0;i<int(s.length/10)+1;i++){
         let ss=[];
         for(let j=i;j<10;j++){
@@ -113,6 +114,11 @@ function movement(){
     }
 }
 
+function dialogs(_a,_b){
+    //image xxx
+
+}
+
 function scenes(_scene){
     switch(_scene){
         case 0:
@@ -138,22 +144,22 @@ function scene0(_x){
             [100,200]];//all things with x and y
     for(let i=0;i<things[0].length;i++){
         if(abs(mouseX-things[1][i])<20 && abs(mouseY-things[2][i])<20){
-            text(itemword[items[1][things[0][i]]][things[0][i]],things[1][i],things[2][i]);
-            if (mouseIsPressed && items[5][things[0][i]]===true && items[3][things[0][i]]===true){
-                if (items[3][things[0][i]]===true){
-                    items[1][things[0][i]]=1;
-                    if (items[4][things[0][i]]!==-1) {
-                        items[4][things[0][i]] = 1;
+            text(itemword[items[things[0][i]][1]][things[0][i]],things[1][i],things[2][i]);
+            if (mouseIsPressed && items[things[0][i]][5]===true && items[things[0][i]][3]===true){
+                if (items[things[0][i]][3]===true){
+                    items[things[0][i]][1]=1;
+                    if (items[things[0][i]][4]!==-1) {
+                        items[things[0][i]][4] = 1;
                     }
                 }
             }
         }
-        if (items[2][things[0][i]]===true){
-            image(imagebed[items[1][things[0][i]]][things[0][i]],things[1][i]+_x,things[2][i]);
+        if (items[things[0][i]][2]===true){
+            image(imagebed[items[things[0][i]][1]][things[0][i]],things[1][i]+_x,things[2][i]);
         }
     }
     //forward!
-    if (mouseX+_x>2080 && abs(mouseY-270)<270 && items[3][32]===true){
+    if (mouseX+_x>2080 && abs(mouseY-270)<270 && items[32][3]===true){
         if(mouseIsPressed) {
             scene = 1;
         }
@@ -209,6 +215,7 @@ function setup(){
         }
     }
     print(items);
+    print(imagebed);
 }
 
 function draw(){
