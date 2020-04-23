@@ -1,5 +1,5 @@
 let items;
-let Table
+let Table;
 let itemword=[[],[]];
 let interaction=[[],[]];
 let imagebed=[[],[]];
@@ -12,6 +12,17 @@ function preload(){
     backgrounds[1]=new loadImage("data/scene1.png");
     imagebed[0][0]=new loadImage("data/jttp.png");
     imagebed[0][1]=new loadImage("data/rjb.png");
+    imagebed[0][2]=new loadImage("data/jjxj.png");
+    imagebed[0][3]=new loadImage("data/rjb2.png");
+    imagebed[0][4]=new loadImage("data/rjb2.png");
+    imagebed[0][5]=new loadImage("data/uddoor1.png");
+    imagebed[0][6]=new loadImage("data/uddoor1.png");
+    imagebed[0][7]=new loadImage("data/key.png");
+    imagebed[0][8]=new loadImage("data/rjb.png");
+    imagebed[0][9]=new loadImage("data/rjb2.png");
+    imagebed[0][10]=new loadImage("data/rjb2.png");
+    imagebed[0][11]=new loadImage("data/uddoor1.png");
+    imagebed[0][12]=new loadImage("data/uddoor2.png");
     Table=loadTable("data/1.csv","csv","header");
 }
 
@@ -20,7 +31,7 @@ function guis(){
     let leng=0;
     for(let i=0;i<items.length;i++){
         if (items[i][4]===1){
-            selflist.push(i);
+            selflist.push(int(i));
             leng+=1;
         }
         if(leng>=8){
@@ -28,7 +39,7 @@ function guis(){
         }
     }
     for(let i=0;i<selflist.length;i++){
-        image(imagebed[items[selflist[i]][1]][selflist[i]], mouseX+50+i*25, mouseY+50, 20, 20);
+        image(imagebed[items[selflist[i]][2]][selflist[i]], 400+50+i*25, mouseY+50, 20, 20);
     }
 }
 
@@ -41,33 +52,35 @@ function pockets(){
             pocketSwitcher = !pocketSwitcher;
             time=1;
         }
-    }
-    if(keyIsPressed===false){
+    }else if(keyIsPressed===false && time===1){
         time=0;
     }
-
     if (pocketSwitcher===true){
-        scene=-1;
+        //scene=-1;
+        fill(0,100);
+        rect(0,0,1090,1080);
         let printlist=[];
         let point;
         for(let i=0;i<items.length;i++){
-            if (items[i][4]===1) {
-                printlist.push(i);
+            if (items[i][5]===1) {
+                printlist.push(int(i));
             }
         }
         for(let i=0;i<printlist.length;i++) {
-            if (abs(mouseX - i%8*80+50)<25 && abs(mouseY-int(i/8)*80+50)<25 ){
+            if (abs(mouseX - i%8*80+50)<50 && abs(mouseY-int(i/8)*80+50)<50 ){
                 push();
-                rotate(PI/8);
-                image(imagebed[printlist[i]][items[printlist[i]][1]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 60, 60);
-                text(itemword[printlist[i]][0],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
+                rotate(PI/8.0);
+                image(imagebed[items[printlist[i]][1]][printlist[i]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 60, 60);
+                //text(itemword[printlist[i]][0],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
                 words(printlist[i]);
                 pop();
                 if (mouseIsPressed){
                     hold=printlist[i];
                 }
             }else{
-                image(imagebed[printlist[i]][items[printlist[i]][1]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 50, 50);
+                let b=printlist[i];
+                let a=int(items[printlist[i]][2]);
+                image(imagebed[a][b], i % 8 * 80 + 50, int(i / 8) * 80 + 50,50,50);
                 //标号，模式
             }
         }
@@ -103,14 +116,14 @@ function missions(){
 }
 
 //scene below
-//let reX=-600;
-let rex=0;//for test
+let rex=-600;
+//let rex=-0;//for test
 function movement(){
-    if (mouseX<100 && rex+2194>800){
-        rex-=10;
-    }
-    if (mouseX>700 && rex<0){
+    if (mouseX<100 && rex<0){
         rex+=10;
+    }
+    if (mouseX>700 && rex+2194>800){
+        rex-=10;
     }
 }
 
@@ -132,15 +145,13 @@ function dialogs(_b){
 }
 
 function scenes(_scene){
-    switch(_scene){
-        case 0:
-            //movement();
-            scene0(rex);
-        case 1:
-            //movement();
-            scene1(rex);
-        case -1:
-            let pass=0;
+    if (_scene===0){
+        movement();
+        scene0(rex);
+    }
+    if (_scene===1){
+        movement();
+        scene1(rex);
     }
 }
 
@@ -148,34 +159,45 @@ function scenes(_scene){
 
 
 function scene0(_x){
-    image(backgrounds[0],-0,0,2194,540);
-    pockets();
+    image(backgrounds[0],_x,0,2194,540);
     let things;
-    things=[[0  ,1],
-            [100,100],
-            [100,200]];//all things with x and y
+    things=[[],
+            [],
+            []];//all things with x and y
+    for (let i=0;i<items.length;i++){
+        if(int(items[i][6])===1){
+            things[0].push(int(items[i][0]));
+            things[1].push(int(items[i][7]));
+            things[2].push(int(items[i][8]));
+        }
+    }
     for(let i=0;i<things[0].length;i++){
-        if(abs(mouseX-things[1][i])<20 && abs(mouseY-things[2][i])<20){
-            text(itemword[items[things[0][i]][1]][things[0][i]],things[1][i],things[2][i]);
-            if (mouseIsPressed && items[things[0][i]][5]===true && items[things[0][i]][3]===true){
+        if(abs(mouseX-(things[1][i]+_x))<20 && abs(mouseY-things[2][i])<40){
+            //text(itemword[items[things[0][i]][1]][things[0][i]],things[1][i]+_x,things[2][i]);
+            if (mouseIsPressed && items[things[0][i]][4]===true && items[things[0][i]][3]===true){
                 if (items[things[0][i]][3]===true){
-                    items[things[0][i]][1]=1;
-                    if (items[things[0][i]][4]!==-1) {
-                        items[things[0][i]][4] = 1;
+                    items[things[0][i]][4]=1;
+                    if (items[things[0][i]][5]!==-1) {
+                        items[things[0][i]][5] = 1;
+                        items[things[0][i]][3]=false;
+                        print('in');
                     }
                 }
             }
         }
-        if (items[things[0][i]][2]===true){
-            image(imagebed[items[things[0][i]][1]][things[0][i]],things[1][i]+_x,things[2][i]);
+        if (items[things[0][i]][3]===true){
+            print(things);
+            image(imagebed[items[things[0][i]][2]][things[0][i]],things[1][i]+_x,things[2][i],50,50);
+            print("print");
         }
     }
     //forward!
-    if (mouseX+_x>2080 && abs(mouseY-270)<270 && items[32][3]===true){
+    if (mouseX-_x>2080 && abs(mouseY-270)<270 && items[6][3]===true){
         if(mouseIsPressed) {
             scene = 1;
         }
     }
+    print(rex);
 
 }
 function scene1(_x){
@@ -185,6 +207,7 @@ function scene1(_x){
 
 function mouseP(){
     let ss=mouseX+"::"+mouseY;
+    fill(255);
     text(ss,mouseX+10,mouseY+10);
 }
 
@@ -193,41 +216,31 @@ function mouseP(){
 //main framework
 let scene=0;
 function setup(){
-    //createCanvas(800,600);
-    createCanvas(2194,600);//for test
+    createCanvas(800,600);
+    //createCanvas(2194,600);//for test
     items=Table.getArray();
     for(let i=0;i<items.length;i++){
-        let a=items[i][1];
-        let b=items[i][2];
-        let c=items[i][3];
-        let d=items[i][4];
-        let e=items[i][5];
-        if (a===0 || a===1){
-            items[i][1]=int(a);
-        }
-
-        if(b===1){
-            items[i][2]=true;
-        }else{
-            items[i][2]=false;
-        }
-
-        if(c===1){
+        items[i][0]=int(items[i][0]);
+        items[i][1]=items[i][1];;
+        items[i][2]=int(items[i][2]);
+        if(items[i][3]==='1'){
             items[i][3]=true;
         }else{
             items[i][3]=false;
         }
-
-        if (d===0 || d=== 1){
-            items[i][4]=int(d);
+        if(items[i][4]==='1'){
+            items[i][4]=true;
+        }else{
+            items[i][4]=false;
         }
+        items[i][5]=int(items[i][5]);
+        items[i][6]=int(items[i][6]);
+        items[i][7]=int(items[i][7]);
+        items[i][8]=int(items[i][8]);
 
-        if (e===0 || e===1){
-            items[i][5]=int(e);
-        }
     }
-    print(items);
     print(imagebed);
+    print(items);
 }
 
 function draw(){
@@ -238,5 +251,7 @@ function draw(){
         background(0);
     }
     scenes(scene);
-    guis();
+    //guis();
+    pockets();
+    mouseP();
 }
