@@ -78,15 +78,15 @@ function pockets(){
 }
 
 function words(_n){
-    image(noiseback,0,0);
+    //image(noiseback,0,0);
     image(imagebed[items[_n][1]][_n],500,width/2,400,400);
     let s=itemword[items[_n][1]];
     for(let i=0;i<int(s.length/10)+1;i++){
-        let ss=[];
+        let ss="";
         for(let j=i;j<10;j++){
-            ss=ss+s[j];
+            ss=ss+s[i+j];
         }
-        text(ss, 1500, int(i / 8) * 20 + 200);
+        text(ss, 600, int(i / 8) * 20 + 200);
     }
 }
 
@@ -114,9 +114,21 @@ function movement(){
     }
 }
 
-function dialogs(_a,_b){
-    //image xxx
+function dialogs(_b){
+    let bpos=[items[6][_b],items[7][_b]];
+    for(let i=0;i<interaction[_b].length;i++){
+        while(mouseIsPressed===false){
 
+        }
+        let ss=interaction[_b][i];
+        for(let j=0;j<int(ss.length/10)+1;j+=10){
+            let s="";
+            for(let k=0;k<10;k++){
+                s=s+ss[j+k];
+            }
+            text(s,bpos[0],bpos[1]+30*i);
+        }
+    }
 }
 
 function scenes(_scene){
