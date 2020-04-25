@@ -8,22 +8,22 @@ let noiseback;
 let backgrounds=[];
 
 function preload(){
-    backgrounds[0]=new loadImage("data/scene0.png");
-    backgrounds[1]=new loadImage("data/scene1.png");
-    imagebed[0][0]=new loadImage("data/jttp.png");
-    imagebed[0][1]=new loadImage("data/rjb.png");
-    imagebed[0][2]=new loadImage("data/jjxj.png");
-    imagebed[0][3]=new loadImage("data/rjb2.png");
-    imagebed[0][4]=new loadImage("data/rjb2.png");
-    imagebed[0][5]=new loadImage("data/uddoor1.png");
-    imagebed[0][6]=new loadImage("data/uddoor1.png");
-    imagebed[0][7]=new loadImage("data/key.png");
-    imagebed[0][8]=new loadImage("data/rjb.png");
-    imagebed[0][9]=new loadImage("data/rjb2.png");
-    imagebed[0][10]=new loadImage("data/rjb2.png");
-    imagebed[0][11]=new loadImage("data/uddoor1.png");
-    imagebed[0][12]=new loadImage("data/uddoor2.png");
-    Table=loadTable("data/1.csv","csv","header");
+    backgrounds[0]=new loadImage("https://motifff.github.io/team-wordgame/data/scene0.png");
+    backgrounds[1]=new loadImage("https://motifff.github.io/team-wordgame/data/scene1.png");
+    imagebed[0][0]=new loadImage("https://motifff.github.io/team-wordgame/data/jttp.png");
+    imagebed[0][1]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb.png");
+    imagebed[0][2]=new loadImage("https://motifff.github.io/team-wordgame/data/jjxj.png");
+    imagebed[0][3]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
+    imagebed[0][4]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
+    imagebed[0][5]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor1.png");
+    imagebed[0][6]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor1.png");
+    imagebed[0][7]=new loadImage("https://motifff.github.io/team-wordgame/data/key.png");
+    imagebed[0][8]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb.png");
+    imagebed[0][9]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
+    imagebed[0][10]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
+    imagebed[0][11]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor1.png");
+    imagebed[0][12]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor2.png");
+    Table=loadTable("https://motifff.github.io/team-wordgame/data/1.csv","csv","header");
 }
 
 function guis(){
@@ -67,10 +67,11 @@ function pockets(){
             }
         }
         for(let i=0;i<printlist.length;i++) {
-            if (abs(mouseX - i%8*80+50)<50 && abs(mouseY-int(i/8)*80+50)<50 ){
+            if (abs(mouseX - i%8*80+50)<50 && abs(mouseY-int(i/8)*80+50)<50){
                 push();
-                rotate(PI/8.0);
-                image(imagebed[items[printlist[i]][1]][printlist[i]], i % 8 * 80 + 50, int(i / 8) * 80 + 50, 60, 60);
+                translate(i % 8 * 80 + 50, int(i / 8) * 80 + 50);
+                rotate(PI/3.0);
+                image(imagebed[items[printlist[i]][1]][printlist[i]],0 ,0, 60, 60);
                 //text(itemword[printlist[i]][0],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
                 words(printlist[i]);
                 pop();
@@ -103,7 +104,20 @@ function words(_n){
     }
 }
 
-
+let show_mode=false;
+function showItem(_n){
+    if (_n!==-1) {
+        if (show_mode) {
+            fill(0, 100);
+            rect(0, 0, 1090, 1080);
+            image(imagebed[items[_n][2]][_n], 200, 150, 300, 300);
+        }
+        if (keyIsPressed) {
+            show_mode = false;
+            show_thing=-1;
+        }
+    }
+}
 
 //mission control
 function missions(){
@@ -116,13 +130,13 @@ function missions(){
 }
 
 //scene below
-let rex=-600;
+let rex=-100;
 //let rex=-0;//for test
 function movement(){
     if (mouseX<100 && rex<0){
         rex+=10;
     }
-    if (mouseX>700 && rex+2194>800){
+    if (mouseX>700 && rex+sceneWid>800){
         rex-=10;
     }
 }
@@ -155,17 +169,11 @@ function scenes(_scene){
     }
 }
 
-
-
-
-function scene0(_x){
-    image(backgrounds[0],_x,0,2194,540);
-    let things;
-    things=[[],
-            [],
-            []];//all things with x and y
+let show_thing=-1;
+function basicScene(_x){
+    let things=[[],[],[]];
     for (let i=0;i<items.length;i++){
-        if(int(items[i][6])===1){
+        if(int(items[i][6])===scene+1){
             things[0].push(int(items[i][0]));
             things[1].push(int(items[i][7]));
             things[2].push(int(items[i][8]));
@@ -180,33 +188,45 @@ function scene0(_x){
                     if (items[things[0][i]][5]!==-1) {
                         items[things[0][i]][5] = 1;
                         items[things[0][i]][3]=false;
-                        print('in');
                     }
                 }
+                show_mode=true;
+                show_thing=things[0][i];
             }
         }
         if (items[things[0][i]][3]===true){
-            print(things);
             image(imagebed[items[things[0][i]][2]][things[0][i]],things[1][i]+_x,things[2][i],50,50);
-            print("print");
         }
     }
+    showItem(show_thing);
+}
+
+let sceneWid=0;
+function scene0(_x){
+    image(backgrounds[0],_x,0,1741,428.5);
+    sceneWid=1741;
+    basicScene(_x);
     //forward!
-    if (mouseX-_x>2080 && abs(mouseY-270)<270 && items[6][3]===true){
+    if (mouseX-_x>1553 && abs(mouseY-270)<270 && items[6][3]===true){
         if(mouseIsPressed) {
             scene = 1;
+            rex=-20;
         }
     }
-    print(rex);
 
 }
 function scene1(_x){
     pockets();
-    let things=[[],[],[]];//all things with x and y
+    image(backgrounds[1],_x,0,1203,428.5);
+    sceneWid=1203;
+    basicScene(_x);
+
 }
 
 function mouseP(){
-    let ss=mouseX+"::"+mouseY;
+    let x=mouseX-rex;
+    let y=mouseY-rex;
+    let ss=x+"::"+y;
     fill(255);
     text(ss,mouseX+10,mouseY+10);
 }
@@ -216,7 +236,7 @@ function mouseP(){
 //main framework
 let scene=0;
 function setup(){
-    createCanvas(800,600);
+    createCanvas(windowWidth,windowHeight);
     //createCanvas(2194,600);//for test
     items=Table.getArray();
     for(let i=0;i<items.length;i++){
@@ -239,8 +259,7 @@ function setup(){
         items[i][8]=int(items[i][8]);
 
     }
-    print(imagebed);
-    print(items);
+
 }
 
 function draw(){
@@ -254,4 +273,7 @@ function draw(){
     //guis();
     pockets();
     mouseP();
+    fill(0,0,0);
+    rect(800,0,1000,windowHeight);
+    print(items);
 }
