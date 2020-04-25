@@ -8,22 +8,22 @@ let noiseback;
 let backgrounds=[];
 
 function preload(){
-    backgrounds[0]=new loadImage("https://motifff.github.io/team-wordgame/data/scene0.png");
-    backgrounds[1]=new loadImage("https://motifff.github.io/team-wordgame/data/scene1.png");
-    imagebed[0][0]=new loadImage("https://motifff.github.io/team-wordgame/data/jttp.png");
-    imagebed[0][1]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb.png");
-    imagebed[0][2]=new loadImage("https://motifff.github.io/team-wordgame/data/jjxj.png");
-    imagebed[0][3]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
-    imagebed[0][4]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
-    imagebed[0][5]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor1.png");
-    imagebed[0][6]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor1.png");
-    imagebed[0][7]=new loadImage("https://motifff.github.io/team-wordgame/data/key.png");
-    imagebed[0][8]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb.png");
-    imagebed[0][9]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
-    imagebed[0][10]=new loadImage("https://motifff.github.io/team-wordgame/data/rjb2.png");
-    imagebed[0][11]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor1.png");
-    imagebed[0][12]=new loadImage("https://motifff.github.io/team-wordgame/data/uddoor2.png");
-    Table=loadTable("https://motifff.github.io/team-wordgame/data/1.csv","csv","header");
+    backgrounds[0]=new loadImage("data/scene0.png");
+    backgrounds[1]=new loadImage("data/scene1.png");
+    imagebed[0][0]=new loadImage("data/jttp.png");
+    imagebed[0][1]=new loadImage("data/rjb.png");
+    imagebed[0][2]=new loadImage("data/jjxj.png");
+    imagebed[0][3]=new loadImage("data/rjb2.png");
+    imagebed[0][4]=new loadImage("data/rjb2.png");
+    imagebed[0][5]=new loadImage("data/uddoor1.png");
+    imagebed[0][6]=new loadImage("data/uddoor1.png");
+    imagebed[0][7]=new loadImage("data/key.png");
+    imagebed[0][8]=new loadImage("data/rjb.png");
+    imagebed[0][9]=new loadImage("data/rjb2.png");
+    imagebed[0][10]=new loadImage("data/rjb2.png");
+    imagebed[0][11]=new loadImage("data/uddoor1.png");
+    imagebed[0][12]=new loadImage("data/uddoor2.png");
+    Table=loadTable("data/1.csv","csv","header");
 }
 
 function guis(){
@@ -220,7 +220,9 @@ function scene1(_x){
     image(backgrounds[1],_x,0,1203,428.5);
     sceneWid=1203;
     basicScene(_x);
-
+    if ((mouseX-_x)>68 && (mouseX-_x)<241 && mouseIsPressed){
+        scene=0;
+    }
 }
 
 function mouseP(){
