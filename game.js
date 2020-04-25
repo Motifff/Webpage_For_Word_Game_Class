@@ -10,19 +10,19 @@ let backgrounds=[];
 function preload(){
     backgrounds[0]=new loadImage("data/scene0.png");
     backgrounds[1]=new loadImage("data/scene1.png");
-    imagebed[0][0]=new loadImage("data/jttp.png");
-    imagebed[0][1]=new loadImage("data/rjb.png");
-    imagebed[0][2]=new loadImage("data/jjxj.png");
-    imagebed[0][3]=new loadImage("data/rjb2.png");
-    imagebed[0][4]=new loadImage("data/rjb2.png");
-    imagebed[0][5]=new loadImage("data/uddoor1.png");
-    imagebed[0][6]=new loadImage("data/uddoor1.png");
-    imagebed[0][7]=new loadImage("data/key.png");
-    imagebed[0][8]=new loadImage("data/rjb.png");
-    imagebed[0][9]=new loadImage("data/rjb2.png");
-    imagebed[0][10]=new loadImage("data/rjb2.png");
-    imagebed[0][11]=new loadImage("data/uddoor1.png");
-    imagebed[0][12]=new loadImage("data/uddoor2.png");
+    imagebed[0][0]=new loadImage("data/jttp.png");imagebed[1][0]=new loadImage("data/jttp1.png");
+    imagebed[0][1]=new loadImage("data/rjb.png");imagebed[1][1]=new loadImage("data/rjb1.png");
+    imagebed[0][2]=new loadImage("data/jjxj.png");imagebed[1][2]=new loadImage("data/jpxj1.png");
+    imagebed[0][3]=new loadImage("data/ctgxj.png");imagebed[1][3]=new loadImage("data/ctgxj1.png");
+    imagebed[0][4]=new loadImage("data/key.png");imagebed[1][4]=new loadImage("data/key1.png");
+    imagebed[0][5]=new loadImage("data/emp.png");imagebed[1][5]=new loadImage("data/uddoor1.png");
+    imagebed[0][6]=new loadImage("data/emp.png");imagebed[1][6]=new loadImage("data/uddoor1.png");
+    imagebed[0][7]=new loadImage("data/emp.png");
+    imagebed[0][8]=new loadImage("data/emp.png");
+    imagebed[0][9]=new loadImage("data/emp.png");
+    imagebed[0][10]=new loadImage("data/emp.png");
+    imagebed[0][11]=new loadImage("data/emp.png");
+    imagebed[0][12]=new loadImage("data/emp.png");
     Table=loadTable("data/1.csv","csv","header");
 }
 
@@ -45,18 +45,21 @@ function guis(){
 
 let pocketSwitcher=false;
 let time=0;
+let lock=0;
 function pockets(){
     let scenetmp=scene;
     if (keyIsPressed === true && key==='p') {
         if (time===0){
             pocketSwitcher = !pocketSwitcher;
             time=1;
+            lock=rex;
         }
     }else if(keyIsPressed===false && time===1){
         time=0;
     }
     if (pocketSwitcher===true){
         //scene=-1;
+        rex=lock;
         fill(0,100);
         rect(0,0,1090,1080);
         let printlist=[];
@@ -67,11 +70,12 @@ function pockets(){
             }
         }
         for(let i=0;i<printlist.length;i++) {
-            if (abs(mouseX - i%8*80+50)<50 && abs(mouseY-int(i/8)*80+50)<50){
+            imageMode(CENTER);
+            if (abs(mouseX - i%8*80+50)<100 && abs(mouseY-int(i/8)*80+50)<250){
                 push();
-                translate(i % 8 * 80 + 50, int(i / 8) * 80 + 50);
+                translate(i % 8 * 80 + 100, int(i / 8) * 80 + 250);
                 rotate(PI/3.0);
-                image(imagebed[items[printlist[i]][1]][printlist[i]],0 ,0, 60, 60);
+                image(imagebed[0][printlist[i]],0 ,0,imagebed[0][printlist[i]].width/1.5,imagebed[0][printlist[i]].height/1.5);
                 //text(itemword[printlist[i]][0],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
                 words(printlist[i]);
                 pop();
@@ -81,9 +85,10 @@ function pockets(){
             }else{
                 let b=printlist[i];
                 let a=int(items[printlist[i]][2]);
-                image(imagebed[a][b], i % 8 * 80 + 50, int(i / 8) * 80 + 50,50,50);
+                image(imagebed[0][b], i % 8 * 80 + 100, int(i / 8) * 80 + 250,imagebed[0][b].width/1.5,imagebed[0][b].height/1.5);
                 //标号，模式
             }
+            imageMode(CORNER);
         }
     }else{
         scene=scenetmp;
@@ -93,7 +98,7 @@ function pockets(){
 
 function words(_n){
     //image(noiseback,0,0);
-    image(imagebed[items[_n][1]][_n],500,width/2,400,400);
+    //image(imagebed[items[_n][1]][_n],500,width/2,400,400);
     let s=itemword[items[_n][1]];
     for(let i=0;i<int(s.length/10)+1;i++){
         let ss="";
@@ -110,7 +115,9 @@ function showItem(_n){
         if (show_mode) {
             fill(0, 100);
             rect(0, 0, 1090, 1080);
-            image(imagebed[items[_n][2]][_n], 200, 150, 300, 300);
+            imageMode(CENTER);
+            image(imagebed[1][_n], 400, 300,imagebed[1][_n].width/4,imagebed[1][_n].height/4);
+            imageMode(CORNER)
         }
         if (keyIsPressed) {
             show_mode = false;
@@ -121,10 +128,12 @@ function showItem(_n){
 
 //mission control
 function missions(){
-    if(scene=0){
-
+    if(scene===0){
+        if(items[4][5]===1){
+            items[5][4]=true;
+        }
     }
-    if(scene=1){
+    if(scene===1){
 
     }
 }
@@ -180,13 +189,12 @@ function basicScene(_x){
         }
     }
     for(let i=0;i<things[0].length;i++){
-        if(abs(mouseX-(things[1][i]+_x))<20 && abs(mouseY-things[2][i])<40){
+        if(mouseX-(things[1][i]+_x)<80 && abs(mouseY-things[2][i])<40){
             //text(itemword[items[things[0][i]][1]][things[0][i]],things[1][i]+_x,things[2][i]);
             if (mouseIsPressed && items[things[0][i]][4]===true && items[things[0][i]][3]===true){
-                if (items[things[0][i]][3]===true){
-                    items[things[0][i]][4]=1;
+                if (items[things[0][i]][3]===true && items[things[0][i]][4]===true){
                     if (items[things[0][i]][5]!==-1) {
-                        items[things[0][i]][5] = 1;
+                        items[things[0][i]][5]=1;
                         items[things[0][i]][3]=false;
                     }
                 }
@@ -195,10 +203,25 @@ function basicScene(_x){
             }
         }
         if (items[things[0][i]][3]===true){
-            image(imagebed[items[things[0][i]][2]][things[0][i]],things[1][i]+_x,things[2][i],50,50);
+            image(imagebed[items[things[0][i]][2]][things[0][i]],things[1][i]+_x,things[2][i],imagebed[items[things[0][i]][2]][things[0][i]].width/2,imagebed[items[things[0][i]][2]][things[0][i]].height/2);
         }
     }
+    missions();
     showItem(show_thing);
+    fade(120);
+}
+
+let fadec=0;
+function fade(_t){
+    if (fadec!=0){
+        if((frameCount-fadec)<120){
+            fill(0,map(frameCount,fadec,fadec+_t,255,0));
+            rect(0,0,1920,1080);
+            rex=0;
+        }else{
+            fadec=0;
+        }
+    }
 }
 
 let sceneWid=0;
@@ -207,13 +230,14 @@ function scene0(_x){
     sceneWid=1741;
     basicScene(_x);
     //forward!
-    if (mouseX-_x>1553 && abs(mouseY-270)<270 && items[6][3]===true){
-        if(mouseIsPressed) {
+    if (mouseX-_x>1553 && abs(mouseY-270)<270 && items[5][3]===true){
+        if(mouseIsPressed && items[5][4]===true) {
+            fadec=frameCount;
+            items[5][2]=1;
             scene = 1;
             rex=-20;
         }
     }
-
 }
 function scene1(_x){
     pockets();
@@ -221,13 +245,14 @@ function scene1(_x){
     sceneWid=1203;
     basicScene(_x);
     if ((mouseX-_x)>68 && (mouseX-_x)<241 && mouseIsPressed){
+        fadec=frameCount;
         scene=0;
     }
 }
 
 function mouseP(){
     let x=mouseX-rex;
-    let y=mouseY-rex;
+    let y=mouseY;
     let ss=x+"::"+y;
     fill(255);
     text(ss,mouseX+10,mouseY+10);
