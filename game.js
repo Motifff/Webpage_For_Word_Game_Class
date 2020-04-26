@@ -27,6 +27,7 @@ function preload(){
     imagebed[0][10]=new loadImage(ga+"data/emp.png");
     imagebed[0][11]=new loadImage(ga+"data/emp.png");
     imagebed[0][12]=new loadImage(ga+"data/emp.png");
+    imagebed[0][13]=new loadImage(ga+"data/emp.png");
     Table=loadTable(ga+"data/1.csv","csv","header");
 }
 
