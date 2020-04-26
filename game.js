@@ -7,26 +7,27 @@ let hold=-1;
 let noiseback;
 let backgrounds=[];
 let curs=[];
+let ga='https://motifff.github.io/team-wordgame/';
 
 function preload(){
-    backgrounds[0]=new loadImage("data/scene0.png");
-    backgrounds[1]=new loadImage("data/scene1.png");
-    curs[0]=new loadImage('data/C0.png');
-    curs[1]=new loadImage('data/C1.png');
-    imagebed[0][0]=new loadImage("data/jttp.png");imagebed[1][0]=new loadImage("data/jttp1.png");
-    imagebed[0][1]=new loadImage("data/rjb.png");imagebed[1][1]=new loadImage("data/rjb1.png");
-    imagebed[0][2]=new loadImage("data/jjxj.png");imagebed[1][2]=new loadImage("data/jpxj1.png");
-    imagebed[0][3]=new loadImage("data/ctgxj.png");imagebed[1][3]=new loadImage("data/ctgxj1.png");
-    imagebed[0][4]=new loadImage("data/key.png");imagebed[1][4]=new loadImage("data/key1.png");
-    imagebed[0][5]=new loadImage("data/emp.png");imagebed[1][5]=new loadImage("data/uddoor1.png");
-    imagebed[0][6]=new loadImage("data/emp.png");imagebed[1][6]=new loadImage("data/uddoor1.png");
-    imagebed[0][7]=new loadImage("data/emp.png");
-    imagebed[0][8]=new loadImage("data/emp.png");
-    imagebed[0][9]=new loadImage("data/emp.png");
-    imagebed[0][10]=new loadImage("data/emp.png");
-    imagebed[0][11]=new loadImage("data/emp.png");
-    imagebed[0][12]=new loadImage("data/emp.png");
-    Table=loadTable("data/1.csv","csv","header");
+    backgrounds[0]=new loadImage(ga+"data/scene0.png");
+    backgrounds[1]=new loadImage(ga+"data/scene1.png");
+    curs[0]=new loadImage(ga+'data/C0.png');
+    curs[1]=new loadImage(ga+'data/C1.png');
+    imagebed[0][0]=new loadImage(ga+"data/jttp.png");imagebed[1][0]=new loadImage(ga+"data/jttp1.png");
+    imagebed[0][1]=new loadImage(ga+"data/rjb.png");imagebed[1][1]=new loadImage(ga+"data/rjb1.png");
+    imagebed[0][2]=new loadImage(ga+"data/jjxj.png");imagebed[1][2]=new loadImage(ga+"data/jpxj1.png");
+    imagebed[0][3]=new loadImage(ga+"data/ctgxj.png");imagebed[1][3]=new loadImage(ga+"data/ctgxj1.png");
+    imagebed[0][4]=new loadImage(ga+"data/key.png");imagebed[1][4]=new loadImage(ga+"data/key1.png");
+    imagebed[0][5]=new loadImage(ga+"data/emp.png");imagebed[1][5]=new loadImage(ga+"data/uddoor1.png");
+    imagebed[0][6]=new loadImage(ga+"data/emp.png");imagebed[1][6]=new loadImage(ga+"data/uddoor1.png");
+    imagebed[0][7]=new loadImage(ga+"data/emp.png");
+    imagebed[0][8]=new loadImage(ga+"data/emp.png");
+    imagebed[0][9]=new loadImage(ga+"data/emp.png");
+    imagebed[0][10]=new loadImage(ga+"data/emp.png");
+    imagebed[0][11]=new loadImage(ga+"data/emp.png");
+    imagebed[0][12]=new loadImage(ga+"data/emp.png");
+    Table=loadTable(ga+"data/1.csv","csv","header");
 }
 
 
@@ -222,6 +223,7 @@ function scene0(_x){
     basicScene(_x);
     //forward!
     if (mouseX-_x>1553 && abs(mouseY-270)<270 && items[5][3]===true){
+        cursorM=1;
         if(mouseIsPressed && items[5][4]===true) {
             fadec=frameCount;
             items[5][2]=1;
