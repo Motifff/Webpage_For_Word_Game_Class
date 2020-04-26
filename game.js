@@ -6,10 +6,13 @@ let imagebed=[[],[]];
 let hold=-1;
 let noiseback;
 let backgrounds=[];
+let curs=[];
 
 function preload(){
     backgrounds[0]=new loadImage("data/scene0.png");
     backgrounds[1]=new loadImage("data/scene1.png");
+    curs[0]=new loadImage('data/C0.png');
+    curs[1]=new loadImage('data/C1.png');
     imagebed[0][0]=new loadImage("data/jttp.png");imagebed[1][0]=new loadImage("data/jttp1.png");
     imagebed[0][1]=new loadImage("data/rjb.png");imagebed[1][1]=new loadImage("data/rjb1.png");
     imagebed[0][2]=new loadImage("data/jjxj.png");imagebed[1][2]=new loadImage("data/jpxj1.png");
@@ -26,22 +29,6 @@ function preload(){
     Table=loadTable("data/1.csv","csv","header");
 }
 
-function guis(){
-    let selflist=[];
-    let leng=0;
-    for(let i=0;i<items.length;i++){
-        if (items[i][4]===1){
-            selflist.push(int(i));
-            leng+=1;
-        }
-        if(leng>=8){
-            break;
-        }
-    }
-    for(let i=0;i<selflist.length;i++){
-        image(imagebed[items[selflist[i]][2]][selflist[i]], 400+50+i*25, mouseY+50, 20, 20);
-    }
-}
 
 let pocketSwitcher=false;
 let time=0;
@@ -178,9 +165,11 @@ function scenes(_scene){
     }
 }
 
+let cursorM=0;
 let show_thing=-1;
 function basicScene(_x){
     let things=[[],[],[]];
+    cursorM=0;
     for (let i=0;i<items.length;i++){
         if(int(items[i][6])===scene+1){
             things[0].push(int(items[i][0]));
@@ -189,8 +178,9 @@ function basicScene(_x){
         }
     }
     for(let i=0;i<things[0].length;i++){
-        if(mouseX-(things[1][i]+_x)<80 && abs(mouseY-things[2][i])<40){
+        if(abs(mouseX-(things[1][i]+_x))<20 && abs(mouseY-things[2][i])<40){
             //text(itemword[items[things[0][i]][1]][things[0][i]],things[1][i]+_x,things[2][i]);
+            cursorM=1;
             if (mouseIsPressed && items[things[0][i]][4]===true && items[things[0][i]][3]===true){
                 if (items[things[0][i]][3]===true && items[things[0][i]][4]===true){
                     if (items[things[0][i]][5]!==-1) {
@@ -209,6 +199,7 @@ function basicScene(_x){
     missions();
     showItem(show_thing);
     fade(120);
+
 }
 
 let fadec=0;
@@ -286,6 +277,7 @@ function setup(){
         items[i][8]=int(items[i][8]);
 
     }
+    noCursor();
 
 }
 
@@ -303,4 +295,5 @@ function draw(){
     fill(0,0,0);
     rect(800,0,1000,windowHeight);
     print(items);
+    image(curs[cursorM],mouseX,mouseY);
 }
