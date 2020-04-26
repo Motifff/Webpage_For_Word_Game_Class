@@ -60,10 +60,10 @@ function pockets(){
         }
         for(let i=0;i<printlist.length;i++) {
             imageMode(CENTER);
-            if (abs(mouseX - i%8*80+50)<100 && abs(mouseY-int(i/8)*80+50)<250){
+            if (abs(mouseX - i%8*80+100)<100 && abs(mouseY-int(i/8)*80+50)<250){
                 push();
-                translate(i % 8 * 80 + 100, int(i / 8) * 80 + 250);
-                rotate(PI/3.0);
+                //translate(i % 8 * 80 + 100, int(i / 8) * 80 + 250);
+                //rotate(PI/3.0);
                 image(imagebed[0][printlist[i]],0 ,0,imagebed[0][printlist[i]].width/1.5,imagebed[0][printlist[i]].height/1.5);
                 //text(itemword[printlist[i]][0],i % 8 * 80 + 50, int(i / 8) * 80 + 80);
                 words(printlist[i]);
