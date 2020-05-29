@@ -10,10 +10,12 @@ let noiseback;
 let backgrounds=[];
 let curs=[];
 let gb='https://motifff.github.io/team-wordgame/';
-let ga='';
+let ga='https://motifff.github.io/team-wordgame/';
 let isOpen=false;
 let page=0;
 let press;
+let bookback;
+let onbook;
 
 function preload(){
     backgrounds[0]=new loadImage(ga+"data/scene0.png");
@@ -34,6 +36,8 @@ function preload(){
     imagebed[0][11]=new loadImage(ga+"data/emp.png");
     imagebed[0][12]=new loadImage(ga+"data/emp.png");
     imagebed[0][13]=new loadImage(ga+"data/emp.png");
+    bookback=new loadImage(ga+"data/rjb3.png");
+    onbook=new loadImage(ga+"data/page.png");
     Table=loadTable(ga+"data/1.csv","csv","header");
     Book=loadTable(ga+"data/book.csv","csv","header");
 }
@@ -47,27 +51,50 @@ function book(){
         isOpen=!isOpen;
         press=false;
     }
+    if(press===true && key==="q"){
+        if(page>0){
+            page-=1;
+            press=false;
+        }
+    }
+    if(press===true && key==="e"){
+        if(page<4){
+            page+=1;
+            press=false;
+        }
+    }
+    print(page);
     if(isOpen===true){
         fill(0,0,0,200);
         rect(0,0,1080,720);
+        fill(255,255,255);
+        image(bookback,100,100,bookback.width/2,bookback.height/2);
+        fill(0,0,0,100);
+        rect(0,0,1080,720);
+        push();
+        translate(295,50);
+        rotate(PI/100);
+        image(onbook,0,0,onbook.width/1.9,onbook.height/1.9);
+        pop();
         let s=myBook[page][1];
-        text(s,500,200);
-        s=myBook[page][1];
+        text(s,350,130);
+        s=myBook[page][2];
         print(s);
         let ss="";
-        for(let i=0;i<s.length;i+=15){
+        fill(0,0,0);
+        for(let i=0;i<s.length;i+=1){
             ss+=s[i];
-            if(i%15===0){
-                text(ss,500,int(i/15)+200);
+            if(i%15===14){
+                text(ss,350,int(i/15)*20+150);
                 ss="";
-            }else if(s.length-i<15){
-                for(let j=i;j<ss.length+1;j++){
+            }else if(s.length-int(i/15)*15<14){
+                ss=""
+                for(let j=i;j<s.length;j++){
                     ss+=s[j];
                 }
-                text(ss,500,int(s.length/15)+200)
+                text(ss,350,int(s.length/15)*20+150)
                 break;
             }
-            print(ss);
         }
     }
 }
