@@ -74,6 +74,11 @@ function pockets(){
             }else{
                 let b=printlist[i];
                 let a=int(items[printlist[i]][2]);
+                fill(86,63,46,200);
+                stroke(193,138,38,200);
+                strokeWeight(10);
+                rect(i % 8 * 80 + 100-40, int(i / 8) * 80 + 250-40,80,80,10,10,10,10);
+                noStroke();
                 image(imagebed[0][b], i % 8 * 80 + 100, int(i / 8) * 80 + 250,imagebed[0][b].width/1.5,imagebed[0][b].height/1.5);
                 //标号，模式
             }
@@ -249,7 +254,7 @@ function mouseP(){
     let y=mouseY;
     let ss=x+"::"+y;
     fill(255);
-    text(ss,mouseX+10,mouseY+10);
+    //text(ss,mouseX+10,mouseY+10);
 }
 
 
@@ -297,6 +302,5 @@ function draw(){
     mouseP();
     fill(0,0,0);
     rect(800,0,1000,windowHeight);
-    print(items);
     image(curs[cursorM],mouseX,mouseY);
 }
