@@ -1,5 +1,6 @@
 let items;
 let Table;
+let Book;
 let myBook;
 let itemword=[[],[]];
 let interaction=[[],[]];
@@ -8,8 +9,11 @@ let hold=-1;
 let noiseback;
 let backgrounds=[];
 let curs=[];
-let ga='https://motifff.github.io/team-wordgame/';
+let gb='https://motifff.github.io/team-wordgame/';
+let ga='';
 let isOpen=false;
+let page=0;
+let press;
 
 function preload(){
     backgrounds[0]=new loadImage(ga+"data/scene0.png");
@@ -31,18 +35,25 @@ function preload(){
     imagebed[0][12]=new loadImage(ga+"data/emp.png");
     imagebed[0][13]=new loadImage(ga+"data/emp.png");
     Table=loadTable(ga+"data/1.csv","csv","header");
-    myBook=loadTable(ga+"data/book.csv","csv","header");
-    myBook=myBook.getArray();
+    Book=loadTable(ga+"data/book.csv","csv","header");
 }
 
-function book(page){
-    if(keyPressed && key==="b"){
+function keyReleased(){
+    press=!press;
+}
+
+function book(){
+    if(press===true && key==="b"){
         isOpen=!isOpen;
+        press=false;
     }
     if(isOpen===true){
         fill(0,0,0,200);
         rect(0,0,1080,720);
         let s=myBook[page][1];
+        text(s,500,200);
+        s=myBook[page][1];
+        print(s);
         let ss="";
         for(let i=0;i<s.length;i+=15){
             ss+=s[i];
@@ -56,6 +67,7 @@ function book(page){
                 text(ss,500,int(s.length/15)+200)
                 break;
             }
+            print(ss);
         }
     }
 }
@@ -299,6 +311,8 @@ function setup(){
 
     }
     noCursor();
+    myBook=Book.getArray();
+    print(myBook);
 
 }
 
@@ -315,5 +329,7 @@ function draw(){
     mouseP();
     fill(0,0,0);
     rect(800,0,1000,windowHeight);
+    book();
     image(curs[cursorM],mouseX,mouseY);
+
 }
