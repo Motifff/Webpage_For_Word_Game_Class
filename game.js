@@ -1,5 +1,6 @@
 let items;
 let Table;
+let myBook;
 let itemword=[[],[]];
 let interaction=[[],[]];
 let imagebed=[[],[]];
@@ -8,6 +9,7 @@ let noiseback;
 let backgrounds=[];
 let curs=[];
 let ga='https://motifff.github.io/team-wordgame/';
+let isOpen=false;
 
 function preload(){
     backgrounds[0]=new loadImage(ga+"data/scene0.png");
@@ -29,6 +31,33 @@ function preload(){
     imagebed[0][12]=new loadImage(ga+"data/emp.png");
     imagebed[0][13]=new loadImage(ga+"data/emp.png");
     Table=loadTable(ga+"data/1.csv","csv","header");
+    myBook=loadTable(ga+"data/book.csv","csv","header");
+    myBook=myBook.getArray();
+}
+
+function book(page){
+    if(keyPressed && key==="b"){
+        isOpen=!isOpen;
+    }
+    if(isOpen===true){
+        fill(0,0,0,200);
+        rect(0,0,1080,720);
+        let s=myBook[page][1];
+        let ss="";
+        for(let i=0;i<s.length;i+=15){
+            ss+=s[i];
+            if(i%15===0){
+                text(ss,500,int(i/15)+200);
+                ss="";
+            }else if(s.length-i<15){
+                for(let j=i;j<ss.length+1;j++){
+                    ss+=s[j];
+                }
+                text(ss,500,int(s.length/15)+200)
+                break;
+            }
+        }
+    }
 }
 
 
@@ -144,22 +173,6 @@ function movement(){
     }
 }
 
-function dialogs(_b){
-    let bpos=[items[6][_b],items[7][_b]];
-    for(let i=0;i<interaction[_b].length;i++){
-        while(mouseIsPressed===false){
-
-        }
-        let ss=interaction[_b][i];
-        for(let j=0;j<int(ss.length/10)+1;j+=10){
-            let s="";
-            for(let k=0;k<10;k++){
-                s=s+ss[j+k];
-            }
-            text(s,bpos[0],bpos[1]+30*i);
-        }
-    }
-}
 
 function scenes(_scene){
     if (_scene===0){
